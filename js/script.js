@@ -36,7 +36,9 @@ let toDoList = function(){
 
         let workInfo = create(this.inputs.value);
 
-        works.push(workInfo);
+        if(workInfo != ''){
+            works.push(workInfo);
+        }
 
         if(document.querySelector('h3')){
             document.querySelector('h3').remove();
@@ -77,10 +79,31 @@ let toDoList = function(){
         for(let i = 0; i < works.length; i++){
             let elementLi = document.createElement('li');
             elementLi.id = i;
-            elementLi.innerHTML = `<div class="work">${works[i]}<button class="delete">X</button></div>`
+            elementLi.innerHTML = `<div class="work"><div class="line"></div><input type="checkbox" class="checkbox">${works[i]}<button class="delete">X</button><button class="edit">Изменить</button></div>`
 
             elementUl.appendChild(elementLi);
+
         }
+        
+        this.checkboxes = document.querySelectorAll('.checkbox')
+
+        this.checkboxes.forEach(function(element){
+            element.addEventListener('click',function(){
+                let checkedId = element.parentElement.parentElement.getAttribute('id')
+
+               superThis.checked(checkedId);
+            })
+        })
+        
+        this.edits = document.querySelectorAll('.edit')
+
+        this.edits.forEach(function(element){
+            element.addEventListener('click',function(){
+                let editsId = element.parentElement.parentElement.getAttribute('id')
+
+               console.log(editsId);
+            })
+        })        
 
         this.deletes = document.querySelectorAll('.delete')
 
@@ -92,6 +115,12 @@ let toDoList = function(){
             })
         })
 
+    }
+
+    this.checked = function(id){
+
+        document.getElementById(id).querySelector('.work').classList.toggle('hover1');
+        document.getElementById(id).querySelector('.line').classList.toggle('hover2');
     }
 
 }
